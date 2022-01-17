@@ -60,3 +60,55 @@ function btnAction(e){
     }
 }
 
+
+// créer cookies 
+
+//prend 3 paramètres name, value, exp (= nvObj.cookieName, nvObj.cookieValue, nvObj.cookieExpire)
+function creerCookie(name, value, exp){
+
+    //on vide le texte (actualiser après la fonction précédente)
+    infoTxt.innerText = "";
+
+    //Si le cookie à un même nom
+    //on coupe le tableau au niveau des ";"
+    let cookies = document.cookie.split(';');
+    //Pour chaque cookie
+    cookies.forEach(cookie => {
+        //on enlève les élèments vide au début et à la fin
+        cookie = cookie.trim();
+        console.log(cookie);
+        //on coupe le tableau au niveau des "="
+        let formatCookie = cookie.split('=');
+        console.log(formatCookie);
+        if(formatCookie[0] === encodeURIComponent(name)){
+            dejaFait = true;
+        }
+        console.log("dfsdf;szdfsd".split (';'));
+    })
+
+    if(dejaFait){
+        infoTxt.innerText = "Un cookie possède déjà ce nom!"
+        //on repasse à false
+        dejaFait = false;
+        return;
+    }
+
+    // Si le cookie n'a pas de nom
+    if(name.length === 0) {
+        infoTxt.innerText = `Impossible de définir un cookie sans nom.`
+        //return va sortir de la fonction et ne va pas l'executer ce qu'il y a à la suite
+        return;
+    }
+
+    //encodeURLComponent = encode les caractères spéciaux
+    document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)};expires=${exp.toUTCString()}`;
+    let info = document.createElement('li');
+    //on affiche le texte avec le nom du cookie
+    info.innerText = `Cookie ${name} créé.`;
+    affichage.appendChild(info);
+    setTimeout(() => {
+        //on enlève l'élèment du DOM (le texte) au bout de 1500 ms
+        info.remove();
+    }, 1500)
+}
+
