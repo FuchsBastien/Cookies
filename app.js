@@ -36,15 +36,27 @@ function btnAction(e){
     let nvObj = {};
     //pour chaque input 
     inputs.forEach(input => {
-        //prend les noms des attributs name (cookieName, cookieValue, cookieExpire)
+        //on prend les noms des attributs name (cookieName, cookieValue, cookieExpire)
         let attrName = input.getAttribute('name');
-        //si le nom de l'attribut est différent (!==) de cookieExpire on prend la valeur de l'input sinon (:) la valeur de l'input en date ECRITE   
+        //si le nom de l'attribut est différent (!==) de "cookieExpire" on prend la valeur de l'input sinon (:) la valeur de l'input en date ECRITE   
         let attrValeur = attrName !== "cookieExpire" ? input.value : input.valueAsDate;
-        //on rajoute cette valeur comme attribut attrName de l'objet nvObj 
+        //on rajoute les valeurs de ces 3 input (attrValeur) comme attribut prenant les noms des attributs name ([attrName]) à l'objet nvObj 
         nvObj[attrName] = attrValeur;
     })
     console.log(nvObj);
 
-   
+    //on prend le nom des attributs data (data-cookie)
+    let description = e.target.getAttribute('data-cookie');
+
+    //si le nom de l'attribut est strictement égal à (===) "créer" (le bouton sur lequel on clique)
+    if(description === "creer"){
+        //on crée le cookie prenant les valeurs de l'objet nvObj
+        creerCookie(nvObj.cookieName, nvObj.cookieValue, nvObj.cookieExpire);
+    } 
+        //si le nom de l'attribut est strictement égal à (===) "toutAfficher" (le bouton sur lequel on clique)
+    else if (description === "toutAfficher"){
+        //on fera apparaitre la liste des cookies
+        listeCookies();
+    }
 }
 
