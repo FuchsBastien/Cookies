@@ -2,6 +2,7 @@ const affichage = document.querySelector('.affichage');
 const btns = document.querySelectorAll('button');
 const inputs = document.querySelectorAll('input');
 const infoTxt = document.querySelector('.info-txt')
+let dejaFait = false;
 
 
 //date d'expiration cookie DANS INPUT
@@ -68,6 +69,8 @@ function creerCookie(name, value, exp){
 
     //on vide le texte (actualiser après la fonction précédente)
     infoTxt.innerText = "";
+    //on vide la liste (actualiser après la fonction précédente) 
+    affichage.innerHTML = "";
 
     //Si le cookie à un même nom
     //on coupe le tableau au niveau des ";"
@@ -157,3 +160,39 @@ function listeCookies() {
 }
 
 
+/*Résumé :
+On récupère la date d'aujourd'hui en y ajoutant une semaine en plus (on transforme en ms auquel on ajoute 
+le temps d'une semaine par multiplication)
+On transforme la date en chaine de caractères (chiffres) 
+On affiche cette date dans l'input
+Pour chaque click des 2 boutons on applique la fonction btnAction qui va récupérer les valeurs des 3 inputs
+
+On applique la fonction btnAction 
+Selon son type d'input, on l'ajoute en tant qu'attribut à l'objet nvObj
+Selon l'attribut data-cookie du bouton, on applique la fonction creerCookies qui va récupérer les valeurs 
+de nvObj ou la fonction listeCookies 
+
+On applique la fonction creeCookies
+On récupère les cookies sous format ["pull=50 ; veste=100"]
+On coupe à partir du ";" avec split sous format ""pull=50"" ""veste=100"""
+Pour chaque cookie on enlève les élèments vide au début et à la fin avec trim (format pull=50)
+On coupe le cookie au niveau des "=" avec split pour faire un tableau [pull, 50]
+Si le nom du vêtement du cookie (attribut 1) est strictement égal à celui écrit, la variable "déjàfait" 
+devient true
+Si variable = true on indique à l'utilisateur que le cookie existe déjà et la fonction s'arrête
+Si le nom du vêtement du cookie (attribut 1) est vide, on indique à l'utilisateur qu'un nom est obligatoire
+et la fonction s'arrête
+Sinon on affiche un texte indiquant que le cookie avec son nom a été crée. Ce texte reste affiché 1500 ms
+
+On applique la fonction listeCookies
+On récupère les cookies sous format ["pull=50 ; veste=100"]
+On utilise join pour transformer le tableau en chaine de caractères pour voir s'il est vide
+Si c'est le cas on affiche à l'utilisateur qu'il n'y a pas de cookies à afficher et la fonction s'arrête
+Sinon pour chaque cookie on enlève les élèments vide au début et à la fin avec trim (format pull=50)
+On coupe les cookies au niveau des "=" avec split pour faire un tableau [pull, 50]
+On indique à l'utilisateur de cliquer sur un cookie pour l'effacer
+On affiche chaque cookie dans un tableau dans le DOM en utilisant decodeURLComponent
+Pour chaque clic sur un de ces cookies on indique que l'attribut 1 (nom) du tableau du cookie sera vide
+et que new date = 0 correspond à une date antérieure, ce qui le supprimera le cookie
+Un message indique à l'utilisateur que le cookie avec son nom a été supprimé. Ce texte reste affiché 1500 ms
+*/
