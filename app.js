@@ -72,6 +72,7 @@ function creerCookie(name, value, exp){
     //Si le cookie à un même nom
     //on coupe le tableau au niveau des ";"
     let cookies = document.cookie.split(';');
+    console.log(cookies);
     //Pour chaque cookie
     cookies.forEach(cookie => {
         //on enlève les élèments vide au début et à la fin
@@ -80,10 +81,11 @@ function creerCookie(name, value, exp){
         //on coupe le tableau au niveau des "="
         let formatCookie = cookie.split('=');
         console.log(formatCookie);
+        //encodeURLComponent = encode les caractères spéciaux
         if(formatCookie[0] === encodeURIComponent(name)){
             dejaFait = true;
         }
-        console.log("dfsdf;szdfsd".split (';'));
+        //console.log("dfsdf;szdfsd".split (';'));
     })
 
     if(dejaFait){
@@ -111,4 +113,47 @@ function creerCookie(name, value, exp){
         info.remove();
     }, 1500)
 }
+
+
+
+// créer liste cookies
+
+function listeCookies() {
+    //on coupe le tableau au niveau des ";" split transforme chaine de caractères en tableau
+    let cookies = document.cookie.split (';'); 
+    console.log(cookies);
+     //join transforme un tableau en chaine de caractères
+     if(cookies.join() === "") {
+        infoTxt.innerText = 'Pas de cookies à afficher';
+        return;
+    }
+
+    cookies.forEach(cookie => {
+
+        cookie = cookie.trim();
+        let formatCookie = cookie.split('=');
+
+        // console.log(formatCookie);
+        let item = document.createElement('li');
+        
+        infoTxt.innerText = 'Cliquez sur un cookie dans la liste pour le supprimer.'
+        //decodeURLComponent = decode les caractères spéciaux pour les retransformer en chaines de caractères
+        item.innerText = `Nom : ${decodeURIComponent(formatCookie[0])}, Valeur : ${decodeURIComponent(formatCookie[1])}`;
+        affichage.appendChild(item);
+
+
+        // Suppression cookie
+        item.addEventListener('click', () => {
+
+            document.cookie = `${formatCookie[0]}=; expires=${new Date(0)}`
+            item.innerText = `Cookie ${formatCookie[0]} supprimé`;
+            setTimeout(() => {
+                item.remove();
+            }, 1000);
+
+        })
+    })
+
+}
+
 
